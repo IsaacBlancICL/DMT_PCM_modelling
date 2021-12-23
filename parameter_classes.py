@@ -36,7 +36,7 @@ class fluidClass:
 
 class pcmClass:
     """contains all the variables related to the PCM"""
-    def __init__(self, thermal_cond, density, specific_latent, volumetric_heat, specific_heat, centre_to_centre, pipe_external_diam):
+    def __init__(self, thermal_cond, density, specific_latent, volumetric_heat, specific_heat, centre_to_centre, pipe_external_diam, temp_fusion):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
@@ -44,6 +44,7 @@ class pcmClass:
         self.cvol = volumetric_heat         # volumetric heat @ const P (J/m^3*K)
         self.c = specific_heat              # specific heat @ const P   (J/kg*K)
         self.CtoC = centre_to_centre        # centre-to-centre distance (m)
+        self.T = temp_fusion                # temperature of fusion     (C)
         # calculate other variables
         self.t = (self.CtoC - pipe_external_diam)/2     # thickness     (m)
         

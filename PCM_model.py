@@ -1,5 +1,8 @@
 # IMPORTING LIBRARIES
+import numpy as np
 import parameter_classes
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
 
 
 # DECLARING INSTANCES OF CLASSES
@@ -33,7 +36,8 @@ pcm = parameter_classes.pcmClass(       thermal_cond=0.22,
                                         volumetric_heat=176,
                                         specific_heat=2.2,
                                         centre_to_centre=0.018,
-                                        pipe_external_diam=pipes.Do   )
+                                        pipe_external_diam=pipes.Do,
+                                        temp_fusion=118   )
 
 system = parameter_classes.systemClass( inlet_temp = 20,
                                         total_flowrate=0.00016, # from that Facebook post - shall find link later
@@ -41,4 +45,22 @@ system = parameter_classes.systemClass( inlet_temp = 20,
                                         fluid=fluid   )
 
 
-# SOLVING ODEs
+# SOLVING ODE
+"""
+In the 'solve_ivp' documentation, 't' is the independant variable and 'y' is the dependant variable.
+In this script, 'x' (distance along pipe) is the indendant variable and 'T' (fluid temperature) is
+the dependant variable.
+
+Frustratingly, you still have to write 't' and 'y' sometimes when using 'solve_ivp'.
+"""
+def f(x, T):    # gradient function ie: dT/dx where T is coolant temperature
+    numerator = pcm.T - T
+    denominator = (1/(np.pi*pipes.Di*system.h)) + (np.log(pipes.Do/pipes.Di)/(2*np.pi*fluid.k)) + (np.log(pcm.CtoC/pipes.Do)/(2*np.pi*pipes.k))
+    return (1/(system.m*fluid.c)) * (numerator/denominator)
+solution = solve_ivp(f, [0, pipes.L], [system.Ti], max_step=0.01) # (gradient function, range of x values, initial value for T, max step in x)
+
+
+# GRAPHING THE SOLUTION
+plt.plot(solution.t, solution.y[0])
+plt.xlabel('Distance along pipe (m)')
+plt.ylabel('Fluid temperature (deg C)')
