@@ -1,15 +1,12 @@
 # IMPORTING LIBRARIES
 import numpy as np
 from scipy.integrate import solve_ivp
-import matplotlib.pyplot as plt
 
 
-def graph(pipes,fluid,pcm,system,label=None):
+# DEFINING FUNCTIONS
+def solve(pipes,fluid,pcm,system):
     """
-    Produces a graph of the temperature distribution along the pipe x-axis.
-    
-    The arguments are instances of the four parameter classes. The fifth argument is optional,
-    for giving the graph series a label if you want a legend.
+    The arguments are instances of the four parameter classes. Returns solution in form [x,T]
     
     In the 'solve_ivp' documentation, 't' is the independant variable and 'y' is the dependant variable.
     In this script, 'x' (distance along pipe) is the indendant variable and 'T' (fluid temperature) is
@@ -27,5 +24,5 @@ def graph(pipes,fluid,pcm,system,label=None):
     # SOLVING THE ODE
     solution = solve_ivp(f, [0, pipes.L], [system.Ti], max_step=0.01) # arguments are: (gradient function, range of x values, initial value for T, max step in x)
     
-    # GRAPHING THE SOLUTION
-    plt.plot(solution.t, solution.y[0], label=label)
+    # RETURNING [x,T]
+    return [solution.t, solution.y[0]]
