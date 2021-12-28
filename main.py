@@ -40,4 +40,3 @@ for pipeCSOption in pipeCSOptions:
         results[1] += [pipes.n]
         results[2] += [solution[1][-1]]
         results[3] += []
-    
