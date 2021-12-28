@@ -3,6 +3,8 @@ import csv
 import matplotlib.pyplot as plt
 import parameter_classes as pc
 import temp_distr as td
+import grapher
+
 
 # PIPE CROSS SECTION OPTIONS
 # from Alex's spreadsheet 'Copper Pipe Data' and of the form [internal diameter (m), thickness (m)]
@@ -17,6 +19,7 @@ pipeCSOptions = [ [0.0028, 0.0006],
                   [0.0146, 0.0007],
                   [0.0196, 0.0012],
                   [0.0202, 0.0009] ]
+
 
 # PIPE NUMBER OPTIONS
 # ie: how many small pipes the main coolant pipe split into when it reaches the PCM
@@ -40,3 +43,7 @@ for pipeCSOption in pipeCSOptions:
         results[1] += [pipes.n]
         results[2] += [solution[1][-1]]
         results[3] += []
+       
+        
+# GRAPHING RESULTS
+grapher.outletTempGraph(results)
