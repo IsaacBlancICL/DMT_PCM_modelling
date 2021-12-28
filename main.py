@@ -35,15 +35,9 @@ for pipeCSOption in pipeCSOptions:
         # simulating temp distribution
         print(f"Solving for: Int diam = {round(pipes.Di*1000,1)}mm, {pipes.n} pipes")
         solution = td.solve(pipes,fluid,pcm,system)
-        # graphing
-        plt.plot(solution[0],solution[1],label=f"Int diam = {round(pipes.Di*1000,1)}mm, {pipes.n} pipes")
         # saving outlet temperature results
         results[0] += [pipes.Di]
         results[1] += [pipes.n]
         results[2] += [solution[1][-1]]
         results[3] += []
     
-# MAKING GRAPH PRETTY
-plt.xlabel('Distance along pipe (m)')
-plt.ylabel('Fluid temperature (deg C)')
-# plt.legend()
