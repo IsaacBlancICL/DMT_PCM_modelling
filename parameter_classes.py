@@ -1,11 +1,34 @@
+"""
+All the parameters are stored inside instances of custom classes. The classes are defined in 'parameter_classes.py'.
+This is largely just a neatness thing. For instance, it makes it clear that 'pipes.p' is the density of the pipe
+material while 'fluid.p' is the density of the heat transfer fluid. Calculation of all the other variables also happens
+within the classes. For instance, when you declare an instance of 'pipesClass' named 'pipes', you enter
+variables like thermal inner diameter and thickness, but then variables such as outer diameter and cross sectional
+area are automatically calculated and stored in that same instance of the class. Variables are grouped roughly by
+what they are a property of, so for instance all the system properties are in 'system', which is an instance of the
+class named 'systemClass'.
+
+The __init__ function for each class is written so that you only need to specify the important variables when
+creating an instance of each class; the rest all go to default values. For instance 'pipesClass(internal_diam=0.006)'
+returns an instance of the 'pipes' with internal diameter set to 6mm and all other variables set to default.
+Similarly, 'pipesClass(density=7000)' returns an instance with all variables set to default apart from density.
+You can set as many of as few variables to non-default values as you like. Eg: 'pipesClass(internal_diam=0.006, density=7000)'
+
+I've used this as an excuse to try using classes for the first time so hopefully its actually useful lol.
+"""
+
+
 # IMPORTING LIBRARIES
 import numpy as np
 
 
 # CLASSES FOR CONSTANTS
 class pipesClass:
-    """contains all the variables related to pipes"""
-    def __init__(self, thermal_cond, density, wall_thickness, internal_diam, length, number):
+    """
+    contains all the variables related to pipes.
+    Default values for thermal_cond and density are from Incropera pg899 for pure copper at 300K
+    """
+    def __init__(self, thermal_cond=401, density=8933, wall_thickness=0.0008, internal_diam=0.0044, length=3.43, number=8):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
@@ -22,8 +45,11 @@ class pipesClass:
         
         
 class fluidClass:
-    """contains all the variables related to the heat transfer fluid"""
-    def __init__(self, thermal_cond, density, dynamic_visc, specific_heat):
+    """
+    contains all the variables related to the heat transfer fluid.
+    Default values are from Alex's spreadsheet for 50/50 glycol/water mix - I don't know the sources
+    """
+    def __init__(self, thermal_cond=0.25, density=1079, dynamic_visc=0.0028, specific_heat=3473):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
@@ -35,8 +61,11 @@ class fluidClass:
 
 
 class pcmClass:
-    """contains all the variables related to the PCM"""
-    def __init__(self, thermal_cond, density, specific_latent, volumetric_heat, specific_heat, centre_to_centre, pipe_external_diam, temp_fusion):
+    """
+    contains all the variables related to the PCM.
+    Default values are from Alex's spreadsheet - not sure what PCM he took the properties of
+    """
+    def __init__(self, pipe_external_diam, thermal_cond=0.22, density=900, specific_latent=900, volumetric_heat=176, specific_heat=2.2, centre_to_centre=0.018, temp_fusion=118):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
@@ -50,9 +79,12 @@ class pcmClass:
         
         
 class systemClass:
-    """contains all the variables that descibe the system.
-    These are almost all functions of the variables in the other classes"""
-    def __init__(self, inlet_temp, total_flowrate, pipes, fluid):
+    """
+    contains all the variables that descibe the system.
+    Most of these are calculated from variables in the other classes.
+    Default for total_flowrate is from that Facebook post - shall find link later
+    """
+    def __init__(self, pipes, fluid, inlet_temp = 20, total_flowrate=0.00016):
         # entered variables
         self.Ti = inlet_temp                # fluid temp @ PCM inlet    (C)
         self.Qtot = total_flowrate          # total vol flowrate        (m^3/s)
