@@ -23,7 +23,7 @@ def trial(var):
                                             density=8933,           # Incropera pg899 for pure copper at 300K
                                             wall_thickness=0.0008,
                                             internal_diam=0.0044,
-                                            length=3.43,
+                                            length=100,
                                             number=var   )
     
     fluid = parameter_classes.fluidClass(   thermal_cond=0.25,
@@ -56,10 +56,14 @@ def trial(var):
     """
     def f(x, T):    # gradient function ie: dT/dx where T is coolant temperature
         numerator = pcm.T - T
-        denominator = (1/(np.pi*pipes.Di*system.h)) + (np.log(pipes.Do/pipes.Di)/(2*np.pi*fluid.k)) + (np.log(pcm.CtoC/pipes.Do)/(2*np.pi*pipes.k))
+        denominator = (1/(np.pi*pipes.Di*system.h)) + (np.log(pipes.Do/pipes.Di)/(2*np.pi*pipes.k)) + (np.log(pcm.CtoC/pipes.Do)/(2*np.pi*pcm.k))
         return (1/(system.m*fluid.c)) * (numerator/denominator)
     solution = solve_ivp(f, [0, pipes.L], [system.Ti], max_step=0.01) # (gradient function, range of x values, initial value for T, max step in x)
     
     
     # GRAPHING THE SOLUTION
     plt.plot(solution.t, solution.y[0], label=str(var)+" pipes")
+    
+    
+    
+    

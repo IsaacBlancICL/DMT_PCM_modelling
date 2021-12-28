@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import temp_distr as td
 
 # RUNNING TRIALS
-for number in range(8,40,4):
+for number in range(4,30,4):
     td.trial(number)
     
 # MAKING GRAPH PRETTY
