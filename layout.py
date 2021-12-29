@@ -14,13 +14,10 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
         - the number of pipes that the main coolant pipe splits into, as well as their diameter and thickness
         - the PCM volume requirement
     
-    If the given parameters correspond to a valid setup (ie: a setup where there is enough volume of PCM and
-    the pipes don't interfere with one another) then the function returns the length of each pipe going
-    through the PCM. All pipes going through the PCM are the same length, however this length should not be
-    confused with the total pipe length, which is the pipe length of each pipe going through the PCM
-    multiplied by the number of pipes.
-    
-    If the given parameters correspond to an invalid setup, then the function returns None.
+    Function returns a dictionary containing:
+        Lp          - length of each pipe going through the PCM
+        pcmVolPass  - is there is enough volume of PCM?
+        pipeIntPass - do the pipes not interfere with one another?
     
     Two additional features of the function are turned off by default but can be turned on
         - It prints a results table table=True.
@@ -155,7 +152,4 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     
     
     # RETURNING RESULTS
-    if pcmVolPass & pipeIntPass:
-        return Lp
-    else:
-        return None
+    return {"Lp":Lp, "pcmVolPass":pcmVolPass, "pipeIntPass":pipeIntPass}
