@@ -55,6 +55,7 @@ class pipesClass:
         self.Lc = self.Di/2                 # characteristic length     (m)
         temp = layout.PipeMaker(case=case, pipes=self, pcm=pcm)
         self.L = temp['Lp']                 # length (per pipe)         (m)
+        self.CtoC = temp['CtoC']            # centre-to-centre distance (m)
         self.Pass = temp['designPass']      # is this a valid design?   (boolean)
         self.Asi = np.pi*self.Di*self.L     # inner surface area        (m^3)
         self.Aso = np.pi*self.Do*self.L     # outer surface area        (m^3)
@@ -81,14 +82,13 @@ class pcmClass:
     contains all the variables related to the PCM.
     Default values are for A118 PCM from this datasheet: https://www.pcmproducts.net/files/PlusICE%20Range%202021-1.pdf
     """
-    def __init__(self, thermal_cond=220, density=900, specific_latent=195000, volumetric_heat=176000000, specific_heat=2200, centre_to_centre=0.018, temp_fusion=118, energy_capacity=1250000):
+    def __init__(self, thermal_cond=220, density=900, specific_latent=195000, volumetric_heat=176000000, specific_heat=2200, temp_fusion=118, energy_capacity=1250000):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
         self.lh = specific_latent           # specific latent heat      (J/kg)
         self.cvol = volumetric_heat         # volumetric heat @ const P (J/m^3*K)
         self.c = specific_heat              # specific heat @ const P   (J/kg*K)
-        self.CtoC = centre_to_centre        # centre-to-centre distance (m)
         self.T = temp_fusion                # temperature of fusion     (C)
         self.E = energy_capacity            # energy storage capacity   (J)
         # calculate other variables

@@ -16,6 +16,7 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     
     Function returns a dictionary containing:
         Lp          : length of each pipe going through the PCM
+        CtoC        : centre-to-centre distance (diagram on spreadsheet)
         designPass  : is this a valid design? (enough volume of PCM and the pipes don't interfere with one another)
     
     Two additional features of the function are turned off by default but can be turned on
@@ -151,4 +152,4 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     
     
     # RETURNING RESULTS
-    return {"Lp":Lp, "designPass":(pcmVolPass & pipeIntPass)}
+    return {"Lp":Lp, "CtoC":CtoC, "designPass":(pcmVolPass & pipeIntPass)}
