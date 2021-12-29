@@ -24,7 +24,7 @@ def EngineTempTime(qe,cpe,me,pipes,fluid,system,pcm):
         x = solution[0]                                             #Relabeled to help relate to the on-paper maths
         Tpcm = solution[1]
 
-        qfResult = (system.m*fluid.c/x[-1]) * sc.integrate.simpson(Tpcm,x)    #Mean heat transfered from PCM
+        qfResult = (system.m*fluid.c/pipes.L) * sc.integrate.simpson(Tpcm,x)    #Mean heat transfered from PCM
         return(qfResult)
 
     def f(t, system.Ti):
