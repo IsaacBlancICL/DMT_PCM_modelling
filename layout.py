@@ -1,7 +1,6 @@
 # IMPORTING LIBRARIES
 import numpy as np
 import matplotlib.pyplot as pl
-import matplotlib.patches as patches
 import math
 from matplotlib.lines import Line2D
 import pandas as pd
