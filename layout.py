@@ -9,16 +9,26 @@ import pandas as pd
 # DEFINING FUNCTIONS
 def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     """
-    Function returns a bunch of useful values regarding pipe layout
+    Function uses the following information, stored in 'case', 'pipes' and 'pcm' respectively...
+        - the case dimensions
+        - the number of pipes that the main coolant pipe splits into, as well as their diameter and thickness
+        - the PCM volume requirement
+    
+    If the given parameters correspond to a valid setup (ie: a setup where there is enough volume of PCM and
+    the pipes don't interfere with one another) then the function returns the length of each pipe going
+    through the PCM. All pipes going through the PCM are the same length, however this length should not be
+    confused with the total pipe length, which is the pipe length of each pipe going through the PCM
+    multiplied by the number of pipes.
+    
+    If the given parameters correspond to an invalid setup, then the function returns None.
     
     Two additional features of the function are turned off by default but can be turned on
-    - It prints a results table table=True.
-    - It makes a visualisation of the pipe layout if visualisation=True.
+        - It prints a results table table=True.
+        - It makes a visualisation of the pipe layout if visualisation=True.
     
-    THE FUNCTION USES SOME DIFFERENT NAMING CONVENTIONS TO THE OTHER PYTHON FILES! I haven't changed
-    them because I don't want to break anything. Eg: Alex uses 'passes' to refer to the
-    number of small pipes that the main coolant hose splits into, which I refer to as 'number'
-    in the other code.
+    THE FUNCTION IS WRITTEN WITH SOME DIFFERENT NAMING CONVENTIONS TO THE OTHER PYTHON FILES!
+    Eg: Alex uses 'passes' to refer to the number of small pipes that the main coolant hose splits into,
+    which I refer to as 'number' in the other code.
     """
 
     # CALCULATIONS
@@ -41,15 +51,15 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     pipevolume = 0.25 * np.pi * (pipes.Do**2) * Lt
     pcmvolume = totalvolume - pipevolume
     if pcmvolume >= pcm.volReq:
-        pcmpass = True
+        pcmVolPass = True
     if pcmvolume <= pcm.volReq:
-        pcmpass = False
+        pcmVolPass = False
     excessvolume = totalvolume - pcm.volReq
     wastedvolume = excess * case.L * case.W #Wasted volume, this is filled up by PCM but not efficiently heated by copper pipe
     if CtoC >= pipes.Do:
-        pipeinterference = True
+        pipeIntPass = True
     if CtoC <= pipes.Do:
-        pipeinterference = False
+        pipeIntPass = False
  
     
     # DISPLAYING RESULTS TABLE
@@ -73,11 +83,11 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
             totalvolume,
             pipevolume,
             pcmvolume,
-            pcmpass,
+            pcmVolPass,
             excessvolume,
             excess,
             wastedvolume,
-            pipeinterference]
+            pipeIntPass]
         units = ["m","m","m","m","m","m","m","m","","","","m","m","m^3","m^2","m^2","m^3","m^3","","m^3","m","m^3",""]
         df = pd.DataFrame(list(zip(values,units)), index =[
             "Container Width",
@@ -145,4 +155,7 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     
     
     # RETURNING RESULTS
-    return
+    if pcmVolPass & pipeIntPass:
+        return Lp
+    else:
+        return None
