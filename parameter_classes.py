@@ -23,6 +23,19 @@ import numpy as np
 
 
 # CLASSES FOR CONSTANTS
+class caseClass:
+    """
+    contains all the variables related to the case that contains the PCM and pipes.
+    This class doesn't have an __init__ function because these dimensions are totally fixed. We're never
+    gonna trial different options for the case dimensions.
+    
+    Values are from Alex's CAD.
+    """
+    length=0.35
+    width=0.16
+    height=0.16
+
+
 class pipesClass:
     """
     contains all the variables related to pipes.
@@ -65,7 +78,7 @@ class pcmClass:
     contains all the variables related to the PCM.
     Default values are from Alex's spreadsheet - not sure what PCM he took the properties of
     """
-    def __init__(self, pipe_external_diam, thermal_cond=0.22, density=900, specific_latent=900, volumetric_heat=176, specific_heat=2.2, centre_to_centre=0.018, temp_fusion=118):
+    def __init__(self, pipe_external_diam, thermal_cond=0.22, density=900, specific_latent=900, volumetric_heat=176, specific_heat=2.2, centre_to_centre=0.018, temp_fusion=118, energy_capacity=1250000):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
@@ -74,8 +87,10 @@ class pcmClass:
         self.c = specific_heat              # specific heat @ const P   (J/kg*K)
         self.CtoC = centre_to_centre        # centre-to-centre distance (m)
         self.T = temp_fusion                # temperature of fusion     (C)
+        self.E = energy_capacity            # energy storage capacity   (J)
         # calculate other variables
         self.t = (self.CtoC - pipe_external_diam)/2     # thickness     (m)
+        self.volReq = self.E/(self.lh*self.p)       # required volume   (m^3)
         
         
 class systemClass:
