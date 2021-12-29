@@ -40,10 +40,11 @@ for pipeCSOption in pipeCSOptions:
         print(f"Solving for: Int diam = {round(pipes.Di*1000,1)}mm, {pipes.n} pipes")
         solution = td.solve(pipes,fluid,pcm,system)
         # saving outlet temperature results
-        results[0] += [pipes.Di]
-        results[1] += [pipes.n]
-        results[2] += [solution[1][-1]]
-        results[3] += []
+        if pipes.Pass:
+            results[0] += [pipes.Di]
+            results[1] += [pipes.n]
+            results[2] += [solution[1][-1]]
+            results[3] += []
        
         
 # GRAPHING RESULTS
