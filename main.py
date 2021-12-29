@@ -23,7 +23,7 @@ pipeCSOptions = [ [0.0028, 0.0006],
 
 # PIPE NUMBER OPTIONS
 # ie: how many small pipes the main coolant pipe split into when it reaches the PCM
-pipeNOptions = range(1,11)
+pipeNOptions = range(1,21)
 
 
 # TRIALING COMBINATIONS OF OPTIONS
@@ -45,8 +45,9 @@ for pipeCSOption in pipeCSOptions:
             results[0] += [pipes.Di]
             results[1] += [pipes.n]
             results[2] += [solution[1][-1]]
-            results[3] += []
+            results[3] += [pipes.AcRatio]
        
         
 # GRAPHING RESULTS
-grapher.outletTempGraph(results)
+grapher.graph(x=results[0],y=results[1],z=results[2],zlabel='PCM outlet temp (deg C)')
+grapher.graph(x=results[0],y=results[1],z=results[3],zlabel='Cross section area ratio (CS area in PCM over CS area in coolant hose)')
