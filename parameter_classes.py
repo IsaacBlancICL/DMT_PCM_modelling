@@ -76,9 +76,9 @@ class fluidClass:
 class pcmClass:
     """
     contains all the variables related to the PCM.
-    Default values are from Alex's spreadsheet - not sure what PCM he took the properties of
+    Default values are for A118 PCM from this datasheet: https://www.pcmproducts.net/files/PlusICE%20Range%202021-1.pdf
     """
-    def __init__(self, pipe_external_diam, thermal_cond=0.22, density=900, specific_latent=900, volumetric_heat=176, specific_heat=2.2, centre_to_centre=0.018, temp_fusion=118, energy_capacity=1250000):
+    def __init__(self, pipe_external_diam, thermal_cond=220, density=900, specific_latent=195000, volumetric_heat=176000000, specific_heat=2200, centre_to_centre=0.018, temp_fusion=118, energy_capacity=1250000):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
@@ -98,6 +98,7 @@ class systemClass:
     contains all the variables that descibe the system.
     Most of these are calculated from variables in the other classes.
     Default for total_flowrate is from that Facebook post - shall find link later
+    Default for inlet_temp is pretty arbitrary, since it'll change as engine heats up - Matt is working on this
     """
     def __init__(self, pipes, fluid, inlet_temp = 20, total_flowrate=0.00016):
         # entered variables
