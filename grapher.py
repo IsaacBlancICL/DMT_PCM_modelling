@@ -1,14 +1,12 @@
-# Libraries:
+# IMPORTING LIBRARIES
 import matplotlib.pyplot as pl
 import numpy as np
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator
-from mpl_toolkits.mplot3d import Axes3D
- 
+
+
+# DEFINING FUNCTIONS
 def outletTempGraph(results):
     
     # Reading Results:
-     
     x = results[0] #Pipe Diamters
     y = results[1] #Number of Pipes
     z = results[2] #Outlet Temperatures
