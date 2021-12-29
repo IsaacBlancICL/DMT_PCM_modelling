@@ -20,8 +20,8 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
         designPass  : is this a valid design? (enough volume of PCM and the pipes don't interfere with one another)
     
     Two additional features of the function are turned off by default but can be turned on
-        - It prints a results table table=True.
-        - It makes a visualisation of the pipe layout if visualisation=True.
+        - It prints a results table for all valid configurations if table=True.
+        - It makes a visualisation of the pipe layout for all valid configurations if visualisation=True.
     
     THE FUNCTION IS WRITTEN WITH SOME DIFFERENT NAMING CONVENTIONS TO THE OTHER PYTHON FILES!
     Eg: Alex uses 'passes' to refer to the number of small pipes that the main coolant hose splits into,
@@ -57,10 +57,11 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
         pipeIntPass = True
     if CtoC <= pipes.Do:
         pipeIntPass = False
- 
+    # overall pass or fail
+    designPass = (pcmVolPass & pipeIntPass)
     
     # DISPLAYING RESULTS TABLE
-    if table:
+    if (table & designPass):
         values = [
             case.W,
             case.H,
@@ -117,7 +118,7 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
  
  
     # DISPLAYING CROSS SECTION VISUALISATION
-    if visualisation:
+    if (visualisation & designPass):
         #Setting up grid:
         x = [0] * pipes.n * returns
         y = [0] * pipes.n * returns
@@ -152,4 +153,4 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     
     
     # RETURNING RESULTS
-    return {"Lp":Lp, "CtoC":CtoC, "designPass":(pcmVolPass & pipeIntPass)}
+    return {"Lp":Lp, "CtoC":CtoC, "designPass":designPass}

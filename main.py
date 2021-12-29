@@ -32,15 +32,16 @@ for pipeCSOption in pipeCSOptions:
     for pipeNOption in pipeNOptions:
         # creating instances of each class
         case   = pc.caseClass()
-        fluid  = pc.fluidClass()
         pcm    = pc.pcmClass()
         pipes  = pc.pipesClass(internal_diam=pipeCSOption[0], wall_thickness=pipeCSOption[1], number=pipeNOption, case=case, pcm=pcm)
-        system = pc.systemClass(pipes=pipes, fluid=fluid)
-        # simulating temp distribution
-        print(f"Solving for: Int diam = {round(pipes.Di*1000,1)}mm, {pipes.n} pipes")
-        solution = td.solve(pipes,fluid,pcm,system)
-        # saving outlet temperature results
+        # only continue if this configuration is valid (ie: enough PCM volume and pipes don't interfere)
         if pipes.Pass:
+            fluid  = pc.fluidClass()
+            system = pc.systemClass(pipes=pipes, fluid=fluid)
+            # simulating temp distribution
+            print(f"Solving for: Int diam = {round(pipes.Di*1000,1)}mm, {pipes.n} pipes")
+            solution = td.solve(pipes,fluid,pcm,system)
+            # saving outlet temperature results
             results[0] += [pipes.Di]
             results[1] += [pipes.n]
             results[2] += [solution[1][-1]]

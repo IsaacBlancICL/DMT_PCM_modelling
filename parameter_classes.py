@@ -53,7 +53,7 @@ class pipesClass:
         self.Do = self.Di+(2*self.t)        # external diameter         (m)
         self.Ac = np.pi*(self.Di**2)*0.25   # cross sectional area      (m^3)
         self.Lc = self.Di/2                 # characteristic length     (m)
-        temp = layout.PipeMaker(case=case, pipes=self, pcm=pcm)
+        temp = layout.PipeMaker(case=case, pipes=self, pcm=pcm, visualisation=True)
         self.L = temp['Lp']                 # length (per pipe)         (m)
         self.CtoC = temp['CtoC']            # centre-to-centre distance (m)
         self.Pass = temp['designPass']      # is this a valid design?   (boolean)
