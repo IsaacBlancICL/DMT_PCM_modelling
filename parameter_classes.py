@@ -53,7 +53,7 @@ class pipesClass:
         self.Do = self.Di+(2*self.t)        # external diameter         (m)
         self.Ac = np.pi*(self.Di**2)*0.25   # cross sectional area      (m^3)
         self.Lc = self.Di/2                 # characteristic length     (m)
-        self.AcRatio = (self.Ac*self.n)/0.00038   # ratio of total cross section of piping through PCM to cross section of main 25mm ID (I think) coolant hose   (dimensionless)
+        self.AcRatio = (self.Ac*self.n)/0.00049   # ratio of total cross section of piping through PCM to cross section of main 25mm ID coolant hose   (dimensionless)
         temp = layout.PipeMaker(case=case, pipes=self, pcm=pcm)
         self.L = temp['Lp']                 # length (per pipe)         (m)
         self.CtoC = temp['CtoC']            # centre-to-centre distance (m)
