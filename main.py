@@ -34,7 +34,7 @@ for pipeCSOption in pipeCSOptions:
         case   = pc.caseClass()
         pipes  = pc.pipesClass(internal_diam=pipeCSOption[0], wall_thickness=pipeCSOption[1], number=pipeNOption)
         fluid  = pc.fluidClass()
-        pcm    = pc.pcmClass(pipe_external_diam=pipes.Do)
+        pcm    = pc.pcmClass()
         system = pc.systemClass(pipes=pipes, fluid=fluid)
         # simulating temp distribution
         print(f"Solving for: Int diam = {round(pipes.Di*1000,1)}mm, {pipes.n} pipes")

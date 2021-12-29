@@ -78,7 +78,7 @@ class pcmClass:
     contains all the variables related to the PCM.
     Default values are for A118 PCM from this datasheet: https://www.pcmproducts.net/files/PlusICE%20Range%202021-1.pdf
     """
-    def __init__(self, pipe_external_diam, thermal_cond=220, density=900, specific_latent=195000, volumetric_heat=176000000, specific_heat=2200, centre_to_centre=0.018, temp_fusion=118, energy_capacity=1250000):
+    def __init__(self, thermal_cond=220, density=900, specific_latent=195000, volumetric_heat=176000000, specific_heat=2200, centre_to_centre=0.018, temp_fusion=118, energy_capacity=1250000):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
@@ -89,7 +89,6 @@ class pcmClass:
         self.T = temp_fusion                # temperature of fusion     (C)
         self.E = energy_capacity            # energy storage capacity   (J)
         # calculate other variables
-        self.t = (self.CtoC - pipe_external_diam)/2     # thickness     (m)
         self.volReq = self.E/(self.lh*self.p)       # required volume   (m^3)
         
         
