@@ -41,15 +41,15 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     pipevolume = 0.25 * np.pi * (pipes.Do**2) * Lt
     pcmvolume = totalvolume - pipevolume
     if pcmvolume >= pcm.volReq:
-        pcmpass = "Pass"
+        pcmpass = True
     if pcmvolume <= pcm.volReq:
-        pcmpass = "Fail"
+        pcmpass = False
     excessvolume = totalvolume - pcm.volReq
     wastedvolume = excess * case.L * case.W #Wasted volume, this is filled up by PCM but not efficiently heated by copper pipe
     if CtoC >= pipes.Do:
-        pipeinterference = "Pass"
+        pipeinterference = True
     if CtoC <= pipes.Do:
-        pipeinterference = "Fail"
+        pipeinterference = False
  
     
     # DISPLAYING RESULTS TABLE
