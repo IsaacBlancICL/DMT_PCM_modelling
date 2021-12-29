@@ -15,9 +15,8 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
         - the PCM volume requirement
     
     Function returns a dictionary containing:
-        Lp          - length of each pipe going through the PCM
-        pcmVolPass  - is there is enough volume of PCM?
-        pipeIntPass - do the pipes not interfere with one another?
+        Lp          : length of each pipe going through the PCM
+        designPass  : is this a valid design? (enough volume of PCM and the pipes don't interfere with one another)
     
     Two additional features of the function are turned off by default but can be turned on
         - It prints a results table table=True.
@@ -152,4 +151,4 @@ def PipeMaker(case,pipes,pcm,table=False,visualisation=False):
     
     
     # RETURNING RESULTS
-    return {"Lp":Lp, "pcmVolPass":pcmVolPass, "pipeIntPass":pipeIntPass}
+    return {"Lp":Lp, "designPass":(pcmVolPass & pipeIntPass)}

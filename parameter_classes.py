@@ -20,6 +20,7 @@ I've used this as an excuse to try using classes for the first time so hopefully
 
 # IMPORTING LIBRARIES
 import numpy as np
+import layout
 
 
 # CLASSES FOR CONSTANTS
@@ -31,9 +32,9 @@ class caseClass:
     
     Values are from Alex's CAD.
     """
-    length=0.35
-    width=0.16
-    height=0.16
+    L=0.35                                  # length (m)
+    W=0.16                                  # width (m)
+    H=0.16                                  # height (m)
 
 
 class pipesClass:
@@ -41,18 +42,20 @@ class pipesClass:
     contains all the variables related to pipes.
     Default values for thermal_cond and density are from Incropera pg899 for pure copper at 300K
     """
-    def __init__(self, thermal_cond=401, density=8933, wall_thickness=0.0008, internal_diam=0.0044, length=3.43, number=8):
+    def __init__(self, case, pcm, thermal_cond=401, density=8933, wall_thickness=0.0008, internal_diam=0.0044, length=3.43, number=8):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
         self.t = wall_thickness             # wall thickness            (m)
         self.Di = internal_diam             # internal diameter         (m)
-        self.L = length                     # length (per pipe)         (m)
         self.n = number                     # number of pipes           (dimensionless)
         # calculate other variables
         self.Do = self.Di+(2*self.t)        # external diameter         (m)
         self.Ac = np.pi*(self.Di**2)*0.25   # cross sectional area      (m^3)
         self.Lc = self.Di/2                 # characteristic length     (m)
+        temp = layout.PipeMaker(case=case, pipes=self, pcm=pcm)
+        self.L = temp['Lp']                 # length (per pipe)         (m)
+        self.Pass = temp['designPass']      # is this a valid design?   (boolean)
         self.Asi = np.pi*self.Di*self.L     # inner surface area        (m^3)
         self.Aso = np.pi*self.Do*self.L     # outer surface area        (m^3)
         

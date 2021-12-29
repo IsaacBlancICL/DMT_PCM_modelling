@@ -32,9 +32,9 @@ for pipeCSOption in pipeCSOptions:
     for pipeNOption in pipeNOptions:
         # creating instances of each class
         case   = pc.caseClass()
-        pipes  = pc.pipesClass(internal_diam=pipeCSOption[0], wall_thickness=pipeCSOption[1], number=pipeNOption)
         fluid  = pc.fluidClass()
         pcm    = pc.pcmClass()
+        pipes  = pc.pipesClass(internal_diam=pipeCSOption[0], wall_thickness=pipeCSOption[1], number=pipeNOption, case=case, pcm=pcm)
         system = pc.systemClass(pipes=pipes, fluid=fluid)
         # simulating temp distribution
         print(f"Solving for: Int diam = {round(pipes.Di*1000,1)}mm, {pipes.n} pipes")
