@@ -100,7 +100,7 @@ class systemClass:
     """
     contains all the variables that descibe the system.
     Most of these are calculated from variables in the other classes.
-    Default for total_flowrate is from that Facebook post - shall find link later
+    Default for total_flowrate is from that Facebook post - https://www.facebook.com/photo.php?fbid=10150829257203036&l=076deb7d3d
     Default for inlet_temp is pretty arbitrary, since it'll change as engine heats up - Matt is working on this
     """
     def __init__(self, pipes, fluid, inlet_temp = 20, total_flowrate=0.00016):
