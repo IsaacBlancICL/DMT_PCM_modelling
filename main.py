@@ -38,7 +38,7 @@ for pipeCSOption in pipeCSOptions:
         # only continue if this configuration is valid (ie: enough PCM volume and pipes don't interfere)
         if pipes.Pass:
             fluid  = pc.fluidClass()
-            system = pc.systemClass(pipes=pipes, fluid=fluid)
+            system = pc.systemClass(case=case, pipes=pipes, fluid=fluid)
             # simulating temp distribution
             print(f"Solving for: Int diam = {round(pipes.Di*1000,1)}mm, {pipes.n} pipes")
             solution = td.solve(pipes,fluid,pcm,system)
@@ -46,11 +46,11 @@ for pipeCSOption in pipeCSOptions:
             results[0] += [pipes.Di]
             results[1] += [pipes.n]
             results[2] += [solution[1][-1]]
-            results[3] += [pipes.AcRatio]
+            results[3] += [system.hb]
             # simulating engine heating
             #ET_results = et.EngineTempTime(case=case,pcm=pcm,pipes=pipes,fluid=fluid, qe=1,cpe=1,me=1)
        
         
 # GRAPHING RESULTS
 grapher.graph(x=results[0],y=results[1],z=results[2],zlabel='PCM outlet temp (deg C)')
-grapher.graph(x=results[0],y=results[1],z=results[3],zlabel='Cross section area ratio (CS area in PCM over CS area in coolant hose)')
+grapher.graph(x=results[0],y=results[1],z=results[3],zlabel='Pressure loss (Bar)')

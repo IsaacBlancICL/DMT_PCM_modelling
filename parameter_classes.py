@@ -21,6 +21,7 @@ I've used this as an excuse to try using classes for the first time so hopefully
 # IMPORTING LIBRARIES
 import numpy as np
 import layout
+from Pressure_losses import Pressure_loss
 
 
 # CLASSES FOR CONSTANTS
@@ -53,14 +54,13 @@ class pipesClass:
         self.Do = self.Di+(2*self.t)        # external diameter         (m)
         self.Ac = np.pi*(self.Di**2)*0.25   # cross sectional area      (m^3)
         self.Lc = self.Di/2                 # characteristic length     (m)
-        self.AcRatio = (self.Ac*self.n)/0.00049   # ratio of total cross section of piping through PCM to cross section of main 25mm ID coolant hose   (dimensionless)
         temp = layout.PipeMaker(case=case, pipes=self, pcm=pcm)
         self.L = temp['Lp']                 # length (per pipe)         (m)
         self.CtoC = temp['CtoC']            # centre-to-centre distance (m)
         self.Pass = temp['designPass']      # is this a valid design?   (boolean)
         self.Asi = np.pi*self.Di*self.L     # inner surface area        (m^3)
         self.Aso = np.pi*self.Do*self.L     # outer surface area        (m^3)
-        self.e = roughness                  #Inner surface roughness    (m)
+        self.e = roughness                  # Inner surface roughness   (m)
         
         
 class fluidClass:
@@ -77,6 +77,7 @@ class fluidClass:
         # calculate other variables
         self.alpha = self.k/(self.p*self.c) # thermal diffusivity       (m^2/s)
         self.Pr = self.mu/(self.p*self.alpha)   # Prandt number         (dimensionless)
+        self.nu = self.mu/self.p            # kinematic viscosity       (Pa*s/kg)
 
 
 class pcmClass:
@@ -104,7 +105,7 @@ class systemClass:
     Default for total_flowrate is from that Facebook post - https://www.facebook.com/photo.php?fbid=10150829257203036&l=076deb7d3d
     Default for inlet_temp is pretty arbitrary, since it'll change as engine heats up - Matt is working on this
     """
-    def __init__(self, pipes, fluid, inlet_temp = 20, total_flowrate=0.00016):
+    def __init__(self, case, pipes, fluid, inlet_temp = 20, total_flowrate=0.00016):
         # entered variables
         self.Ti = inlet_temp                # fluid temp @ PCM inlet    (C)
         self.Qtot = total_flowrate          # total vol flowrate        (m^3/s)
@@ -115,3 +116,4 @@ class systemClass:
         self.Re = pipes.Di*self.u*fluid.p/fluid.mu  # Reynolds number   (dimensionless)
         self.Nu = 0.023 * (self.Re**(4/5)) * (fluid.Pr**0.4) # Nusselt number from Incropera correlation eqn8.60d on pg519
         self.h = self.Nu*fluid.k/pipes.Lc   # convective HT coef        (W/m^2*K)
+        self.hb = Pressure_loss(Q=self.Q, Di=pipes.Di, nu=fluid.nu, e=pipes.e, CtoC=pipes.CtoC, g=9.81, L=(pipes.L*pipes.n), n=(int(pipes.L/case.L)-1))

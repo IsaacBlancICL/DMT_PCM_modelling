@@ -8,7 +8,7 @@ def Pressure_loss(Q, Di, nu, e, CtoC, g, L, n):
     Parameters
     ----------
     Q       : Vol. flowrate
-    Di      : pipe diameter
+    Di      : pipe internal diameter
     nu      : fluid kin. viscosity
     e       : roughness
     CtoC    : Centre-Centre distance
