@@ -3,7 +3,7 @@ import csv
 import matplotlib.pyplot as plt
 import parameter_classes as pc
 import temp_distr as td
-import engine_temp as et
+#import engine_temp as et
 import grapher
 
 
@@ -48,7 +48,7 @@ for pipeCSOption in pipeCSOptions:
             results[2] += [solution[1][-1]]
             results[3] += [pipes.AcRatio]
             # simulating engine heating
-            ET_results = et.EngineTempTime(case=case,pcm=pcm,pipes=pipes,fluid=fluid, qe=1,cpe=1,me=1)
+            #ET_results = et.EngineTempTime(case=case,pcm=pcm,pipes=pipes,fluid=fluid, qe=1,cpe=1,me=1)
        
         
 # GRAPHING RESULTS

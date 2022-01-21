@@ -32,9 +32,9 @@ class caseClass:
     
     Values are from Alex's CAD.
     """
-    L=0.35                                  # length (m)
-    W=0.16                                  # width (m)
-    H=0.16                                  # height (m)
+    L=0.4                                  # length (m)
+    W=0.121                                  # width (m)
+    H=0.2                                  # height (m)
 
 
 class pipesClass:
@@ -42,7 +42,7 @@ class pipesClass:
     contains all the variables related to pipes.
     Default values for thermal_cond and density are from Incropera pg899 for pure copper at 300K
     """
-    def __init__(self, case, pcm, thermal_cond=401, density=8933, wall_thickness=0.0008, internal_diam=0.0044, length=3.43, number=8):
+    def __init__(self, case, pcm, thermal_cond=401, density=8933, wall_thickness=0.0008, internal_diam=0.0044, length=3.43, roughness=0.00001, number=8):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)
@@ -60,6 +60,7 @@ class pipesClass:
         self.Pass = temp['designPass']      # is this a valid design?   (boolean)
         self.Asi = np.pi*self.Di*self.L     # inner surface area        (m^3)
         self.Aso = np.pi*self.Do*self.L     # outer surface area        (m^3)
+        self.e = roughness                  #Inner surface roughness    (m)
         
         
 class fluidClass:
@@ -83,7 +84,7 @@ class pcmClass:
     contains all the variables related to the PCM.
     Default values are for A118 PCM from this datasheet: https://www.pcmproducts.net/files/PlusICE%20Range%202021-1.pdf
     """
-    def __init__(self, thermal_cond=220, density=900, specific_latent=195000, volumetric_heat=176000000, specific_heat=2200, temp_fusion=118, energy_capacity=1250000):
+    def __init__(self, thermal_cond=0.22, density=939, specific_latent=226000, volumetric_heat=176000000, specific_heat=2200, temp_fusion=75, energy_capacity=1250000):
         # entered variables
         self.k = thermal_cond               # thermal conductivity      (W/m*K)
         self.p = density                    # density                   (kg/m^3)

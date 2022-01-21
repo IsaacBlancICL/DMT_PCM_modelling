@@ -18,7 +18,8 @@ def solve(pipes,fluid,pcm,system):
     # DEFINING THE ODE GRADIENT FUNCTION (ie: dT/dx where T is coolant temperature)
     def f(x, T):
         numerator = pcm.T - T
-        denominator = (1/(np.pi*pipes.Di*system.h)) + (np.log(pipes.Do/pipes.Di)/(2*np.pi*pipes.k)) + (np.log(pipes.CtoC/pipes.Do)/(2*np.pi*pcm.k))
+        #denominator = (1/(np.pi*pipes.Di*system.h)) + (np.log(pipes.Do/pipes.Di)/(2*np.pi*pipes.k)) + (np.log(pipes.CtoC/pipes.Do)/(2*np.pi*pcm.k))
+        denominator = (1 / (np.pi * pipes.Di * system.h))
         return (1/(system.m*fluid.c)) * (numerator/denominator)
     
     # SOLVING THE ODE
